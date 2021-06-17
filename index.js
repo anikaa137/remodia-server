@@ -3,6 +3,7 @@ const app = express()
 const cors = require("cors");
 // const bodyParser = require("body-parser")
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config()
 const port = process.env.PORT || 5000;
 // console.log(process.env.DB_USER,process.env.DB_PASS,process.env.DB_NAME)
@@ -40,6 +41,15 @@ client.connect(err => {
     })
   })
 
+  app.get('/ViewService/:id', (req, res) => {
+    // console.log(req)
+    serviceCollection.find({ _id:ObjectId(req.params.id) })
+      .toArray((err, documents) => {
+        res.send(documents[0])
+        console.log(err, documents)
+  })
+
+   })
 
 
 
